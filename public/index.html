@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Karass</title>
+  <link rel="stylesheet" href="/vendor/xterm.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <aside>
+    <div class="aside-head">
+      <span>Projects</span>
+      <button id="add-project" title="Add a project folder" aria-label="Add a project folder">+</button>
+    </div>
+    <nav id="tree"></nav>
+  </aside>
+
+  <div class="work">
+    <header>
+      <span id="crumb-project" class="muted">karass</span>
+      <span class="muted">/</span>
+      <span id="crumb-session">…</span>
+      <span id="notice" role="status"></span>
+      <button id="fork" hidden>Fork</button>
+    </header>
+    <main id="main">
+      <section class="pane claude">
+        <div class="bar"><span>Claude Code</span><span class="status"></span><button class="restart" hidden>Restart</button></div>
+        <div class="screens"><p class="empty">Pick a session, or press + next to a project to start one.</p></div>
+      </section>
+      <div id="divider" role="separator" aria-orientation="horizontal" aria-label="Resize Claude Code and shell" tabindex="0" title="Drag to resize. Double-click to reset."></div>
+      <section class="pane shell">
+        <div class="bar"><span>Shell</span><span class="status"></span><button class="restart" hidden>Restart</button></div>
+        <div class="screens"><p class="empty">Pick a project to open its shell.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <aside id="panel" hidden>
+    <div class="aside-head"><span>Workers</span></div>
+    <div class="panel-body">
+      <div class="freedom" role="group" aria-label="Manager freedom">
+        <button data-autopilot="false">Ask me</button>
+        <button data-autopilot="true">Autopilot</button>
+      </div>
+      <p class="hint muted" id="freedom-hint"></p>
+      <div id="requests"></div>
+      <div id="workers"></div>
+    </div>
+  </aside>
+
+  <dialog id="session-dialog">
+    <form>
+      <h2 id="session-title">New session</h2>
+      <p class="muted" id="session-folder"></p>
+      <label>Name <input name="name" required maxlength="40" autocomplete="off"></label>
+      <label>Context <select name="forkOf"></select></label>
+      <div class="row">
+        <label>Model <select name="model"></select></label>
+        <label>Effort <select name="effort"></select></label>
+      </div>
+      <label id="freedom-field">Freedom
+        <select name="freedom">
+          <option value="">Ask me before starting workers</option>
+          <option value="autopilot">Autopilot</option>
+        </select>
+      </label>
+      <label>Task <span class="muted">(optional, sent as the first message)</span>
+        <textarea name="task" rows="4"></textarea>
+      </label>
+      <p class="error" role="alert"></p>
+      <div class="actions">
+        <button type="button" class="cancel">Cancel</button>
+        <button type="submit" class="primary">Launch</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="project-dialog">
+    <form>
+      <h2>Add project</h2>
+      <label>Folder <input name="path" required placeholder="~/Projects/my-project" autocomplete="off"></label>
+      <p class="hint muted">A folder that doesn't exist yet will be created.</p>
+      <p class="error" role="alert"></p>
+      <div class="actions">
+        <button type="button" class="cancel">Cancel</button>
+        <button type="submit" class="primary">Add</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/vendor/xterm.js"></script>
+  <script src="/vendor/addon-fit.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
